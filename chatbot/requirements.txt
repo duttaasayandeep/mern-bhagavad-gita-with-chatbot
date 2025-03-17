@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+pydantic
+langchain
+langchain_groq
+langchain_openai
+langchain_community
+langgraph

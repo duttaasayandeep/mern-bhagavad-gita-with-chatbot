@@ -1,0 +1,391 @@
+/* frontend/src/App.css */
+
+/* Global styles & fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@400;700&family=Montserrat:wght@300;500&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5; /* Use a solid background color instead */
+  color: #333;
+}
+
+/* App container with slight background overlay */
+.App {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* Navbar styles */
+.navbar {
+  background: #ff6f61;
+  color: #fff;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-family: 'Montserrat', sans-serif;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.navbar a:hover {
+  background: #ff8a75;
+  transform: scale(1.1);
+  border-radius: 5px;
+}
+
+/* Home page */
+.home {
+  padding: 40px 20px;
+  background: url("../public/images/12.jpg.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.home-title {
+  font-family: 'Lobster', cursive;
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: fadeIn 2s ease;
+}
+
+.video-container iframe {
+  border: 5px solid #ff6f61;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.video-container iframe:hover {
+  transform: scale(1.05);
+}
+
+/* Benefits page */
+.benefits {
+  /* Use a minimum height so that the background covers the entire page */
+  min-height: 100vh;
+  padding: 40px 20px;
+
+  /* Background image properties */
+  background: url("../public/images/solution2.jpg.png") no-repeat center center fixed;
+  background-size: cover;
+  background-attachment: fixed; /* optional, for a parallax-like effect */
+}
+/* If your text is hard to read, consider adding an overlay or adjusting text color */
+.benefits-overlay {
+  background-color: rgba(255, 255, 255, 0.8); /* or darker overlay: rgba(0, 0, 0, 0.4) */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.benefit-video {
+  margin: 30px auto;
+  padding: 20px;
+  border: 1px solid #ff6f61;
+  border-radius: 10px;
+  width: 80%;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.benefit-video:hover {
+  transform: scale(1.02);
+}
+
+.benefit-video h3 {
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 15px;
+}
+
+/* Forms for Registration, Login, and Admin */
+/* Global styles & form container adjustments */
+.form-container,
+.admin-dashboard,
+.admin-section {
+  margin: 30px auto;
+  width: 90%;
+  max-width: 500px;
+  padding: 30px; /* Increased padding for better spacing */
+  background: #fffbf7;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  text-align: center; /* Center text and inputs within the container */
+}
+
+.form-container input,
+.form-container textarea,
+.admin-dashboard input,
+.admin-dashboard textarea {
+  width: 90%; /* Give some side margin */
+  margin: 15px auto;  /* Center each input */
+  padding: 12px;
+  border: 2px solid #ff6f61;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  display: block;
+  text-align: center;
+}
+
+/* Button styles with hover and animation */
+.btn {
+  background: #ff6f61;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.3s ease, transform 0.3s ease;
+  margin: 10px;
+}
+
+.btn:hover {
+  background: #ff8a75;
+  transform: scale(1.05);
+}
+
+/* Solution container for benefits videos (removed background image) */
+.solution-container {
+  background: #fff; /* plain background */
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.solution-container:hover {
+  transform: scale(1.02);
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.admin-dashboard input:focus,
+.admin-dashboard textarea:focus {
+  border-color: #ff8a75;
+  outline: none;
+}
+
+.btn {
+  background: #ff6f61;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background: #ff8a75;
+  transform: scale(1.05);
+}
+
+.btn.delete {
+  background: #e74c3c;
+}
+
+.btn.delete:hover {
+  background: #c0392b;
+}
+
+.btn.cancel {
+  background: #95a5a6;
+}
+
+.btn.cancel:hover {
+  background: #7f8c8d;
+}
+
+/* Video card in admin dashboard */
+.video-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 15px 0;
+  background: #fff;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Chatbot icon container */
+.chatbot-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ffcc00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden; /* ensures the image doesn't spill outside */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+/* Make sure the image fills the container and is scaled properly */
+.chatbot-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.chatbot-icon:hover {
+  transform: scale(1.1);
+}
+
+.chatbot-window {
+  width: 300px;
+  height: 400px;
+  background: #fff;
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  overflow-y: auto;
+  animation: slideUp 0.5s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Add these styles at the end of your App.css file */
+
+/* Solution container for benefits videos */
+.solution-container {
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  /* Add a semi-transparent overlay background */
+  background-color: rgba(255, 255, 255, 0.7);
+  /* Use dark text for better readability */
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.solution-container:hover {
+  transform: scale(1.02);
+}
+/* Add or update these rules in frontend/src/App.css (or a separate Home.css) */
+
+/* Teachings Section */
+.teachings-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f2e8; /* light background color */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.teachings-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.teachings-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* center the cards horizontally */
+}
+
+.teachings-card {
+  flex: 1 1 250px; /* Each card takes at least 250px, then expands */
+  max-width: 300px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #e1c7a8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.teachings-card h3 {
+  margin-top: 0;
+  color: #8c5c0f; /* heading color */
+}
+
+.teachings-card p {
+  margin: 10px 0 0 0;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Example hover effect on card */
+.teachings-card:hover {
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}
+
+
+.register-page {
+  min-height: 100vh; /* ensure full page height */
+  background: url("../public/images/solution4.jpg.png") no-repeat center center fixed;
+  background-size: cover;
+  padding: 50px 20px;
+}
+
+.register-overlay {
+  background-color: rgba(255, 255, 255, 0.8); /* or darker overlay if desired */
+  max-width: 600px; /* container width */
+  margin: 0 auto; /* center horizontally */
+  padding: 30px;
+  border-radius: 8px;
+}
+
+/* Login page background */
+.login-page {
+  min-height: 100vh;
+  background: url("../public/images/solution8.jpg.png") no-repeat center center fixed;
+  background-size: cover;
+  padding: 50px 20px;
+}
+
+.login-overlay {
+  background-color: rgba(255, 255, 255, 0.8);
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+/* Adjust .form-container as needed to ensure spacing, shadows, etc. */
+.form-container {
+  background: #fff; /* If you still want a white box for the form */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
