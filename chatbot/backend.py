@@ -45,10 +45,10 @@ ALLOWED_MODEL_NAMES = [
 
 app = FastAPI(title="Bhagavad Gita Chatbot")
 
-# Add CORSMiddleware to allow requests from any origin (or specify your frontend domains)
+# *** Add CORSMiddleware at the very top ***
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Alternatively, use a list: ["https://mern-bhagavad-gita-with-chatbot-8kdthq0aj.vercel.app"]
+    allow_origins=["*"],  # Alternatively, list allowed origins: e.g. ["https://mern-bhagavad-gita-with-chatbot-6ichck3ua.vercel.app"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -74,5 +74,6 @@ def chat_endpoint(request: RequestState):
 
 if __name__ == "__main__":
     import uvicorn
-    # Use host "0.0.0.0" so that the app is accessible externally.
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
+    # Use host "0.0.0.0" so that the service is externally accessible
+    port = int(os.environ.get("PORT", 5001))
+    uvicorn.run(app, host="0.0.0.0", port=port)
