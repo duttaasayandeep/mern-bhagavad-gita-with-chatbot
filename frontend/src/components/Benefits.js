@@ -7,26 +7,27 @@ function extractVideoId(url) {
     const urlObj = new URL(url);
     return urlObj.searchParams.get('v') || url;
   } catch (error) {
-    return url;
+    return url; // fallback if URL parsing fails
   }
 }
 
 const Benefits = () => {
   const [videos, setVideos] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const { data } = await axios.get('/api/content');
+        const { data } = await axios.get(`${API_URL}/api/content`);
         if (data && data.benefits && data.benefits.videos) {
           setVideos(data.benefits.videos);
         }
       } catch (error) {
-        console.error('Error fetching benefits content:', error.message);
+        console.error('Error fetching benefits content:', error.response ? error.response.data.message : error.message);
       }
     };
     fetchContent();
-  }, []);
+  }, [API_URL]);
 
   return (
     <div className="benefits">
