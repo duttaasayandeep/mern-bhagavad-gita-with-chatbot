@@ -14,18 +14,21 @@ const Login = ({ setUser }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post('/api/auth/login', formData);
-      setUser(data);
-      localStorage.setItem('token', data.token);
-      navigate('/');
-    } catch (error) {
-      console.error('Login error:', error.response.data.message);
-      alert(error.response.data.message);
-    }
-  };
+// frontend/src/components/Login.js
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const { data } = await axios.post(`${API_URL}/api/auth/login`, formData);
+    setUser(data);
+    localStorage.setItem('token', data.token);
+    navigate('/');
+  } catch (error) {
+    console.error('Login error:', error.response ? error.response.data : error);
+    alert(error.response?.data?.message || "Login failed");
+  }
+};
+
 
   return (
     <div className="login-page">
