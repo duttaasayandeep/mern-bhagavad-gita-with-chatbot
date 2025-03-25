@@ -15,9 +15,8 @@ const cors = require('cors');
 connectDB();
 
 const app = express();
-app.use(cors({
-  origin: "https://mern-bhagavad-gita-with-chatbot.vercel.app" // or use "*" to allow all origins
-}));
+app.use(cors()); // Allow all origins
+
 
 
 // Middleware to parse JSON
