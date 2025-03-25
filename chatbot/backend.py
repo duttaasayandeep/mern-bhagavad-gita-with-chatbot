@@ -2,7 +2,7 @@
 import os
 import re
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Load Bhagavad Gita CSV dataset (ensure the CSV file is in the same directory)
+# Load Bhagavad Gita CSV dataset
 gita_df = pd.read_csv("Bhagavad_Gita.csv")
 
 def fetch_word_meaning(query: str) -> Optional[str]:
@@ -45,35 +45,40 @@ ALLOWED_MODEL_NAMES = [
 
 app = FastAPI(title="Bhagavad Gita Chatbot")
 
-# *** Add CORSMiddleware at the very top ***
+# Standard CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Alternatively, list allowed origins: e.g. ["https://mern-bhagavad-gita-with-chatbot-6ichck3ua.vercel.app"]
+    allow_origins=["*"],  # Alternatively, specify your frontend URL(s)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Additional middleware to ensure CORS header is always present
+@app.middleware("http")
+async def add_cors_header(request: Request, call_next):
+    response = await call_next(request)
+    # If the header is not present, add it
+    if "access-control-allow-origin" not in response.headers:
+        response.headers["access-control-allow-origin"] = "*"
+    return response
+
 @app.post("/chat")
 def chat_endpoint(request: RequestState):
     if request.model_name not in ALLOWED_MODEL_NAMES:
         return {"error": "Invalid model name. Kindly select a valid AI model"}
-
     user_query = request.messages[-1] if request.messages else ""
     gita_response = fetch_word_meaning(user_query)
     if gita_response is not None:
         return {"response": gita_response}
-
     llm_id = request.model_name
     allow_search = request.allow_search
     system_prompt = request.system_prompt
     provider = request.model_provider
-
     response = get_response_from_ai_agent(llm_id, request.messages, allow_search, system_prompt, provider)
     return {"response": response}
 
 if __name__ == "__main__":
     import uvicorn
-    # Use host "0.0.0.0" so that the service is externally accessible
     port = int(os.environ.get("PORT", 5001))
     uvicorn.run(app, host="0.0.0.0", port=port)
