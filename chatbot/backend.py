@@ -15,12 +15,10 @@ gita_df = pd.read_csv("Bhagavad_Gita.csv")
 
 def fetch_word_meaning(query: str) -> Optional[str]:
     """
-    If the query mentions a chapter and verse (and optionally 'gita'),
-    extract the chapter and verse numbers and return the corresponding word meaning.
+    If the query is asking for the word meaning of a specific chapter and verse,
+    extract chapter and verse numbers and return the corresponding word meaning.
     """
-    # Check if query mentions 'chapter' and 'verse' (and optionally 'gita')
-    query_lower = query.lower()
-    if "chapter" in query_lower and "verse" in query_lower:
+    if "chapter" in query.lower() and "verse" in query.lower():
         match = re.search(r'chapter\s*(\d+).*?verse\s*(\d+)', query, re.IGNORECASE)
         if match:
             chapter = int(match.group(1))
@@ -44,18 +42,18 @@ class RequestState(BaseModel):
 from ai_agent import get_response_from_ai_agent
 
 ALLOWED_MODEL_NAMES = [
-    "llama3-70b-8192", 
-    "mixtral-8x7b-32768", 
-    "llama-3.3-70b-versatile", 
+    "llama3-70b-8192",
+    "mixtral-8x7b-32768",
+    "llama-3.3-70b-versatile",
     "gpt-4o-mini"
 ]
 
 app = FastAPI(title="Bhagavad Gita Chatbot")
 
-# Add CORS middleware to handle preflight requests (OPTIONS)
+# Enable CORS so that your frontend can access this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],            # Adjust allowed origins as needed
+    allow_origins=["*"],  # Alternatively, specify your frontend URL(s)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -65,8 +63,7 @@ app.add_middleware(
 def chat_endpoint(request: RequestState):
     """
     API Endpoint to interact with the chatbot.
-    - Returns CSV data if the query is about word meaning.
-    - Otherwise, returns a response from the AI agent.
+    Returns CSV-based data if the query is about a chapter/verse; otherwise, uses the AI agent.
     """
     if request.model_name not in ALLOWED_MODEL_NAMES:
         return {"error": "Invalid model name. Kindly select a valid AI model"}
@@ -85,6 +82,7 @@ def chat_endpoint(request: RequestState):
     response = get_response_from_ai_agent(llm_id, request.messages, allow_search, system_prompt, provider)
     return {"response": response}
 
+# For deployment, we change the host to 0.0.0.0 and port to the environment $PORT
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=5001)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
