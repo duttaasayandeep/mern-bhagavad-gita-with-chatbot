@@ -14,8 +14,8 @@ const Chatbot = () => {
   const CHATBOT_URL = process.env.REACT_APP_CHATBOT_URL || "http://localhost:5001";
 
   const defaultParams = {
-    model_name: "gpt-4o-mini",
-    model_provider: "OpenAI",
+    model_name: "llama-3.3-70b-versatile",
+    model_provider: "Groq",
     system_prompt: "You are a helpful assistant answering queries about Bhagavad Gita.",
     allow_search: false
   };
