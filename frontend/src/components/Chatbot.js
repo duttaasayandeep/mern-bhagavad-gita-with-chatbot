@@ -1,7 +1,7 @@
 // frontend/src/components/Chatbot.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Chatbot.css'; // optional: create a CSS file for chatbot-specific styles
+import './Chatbot.css'; // optional
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -10,36 +10,35 @@ const Chatbot = () => {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Default parameters for the chatbot API request
+  // Set the chatbot API URL using an environment variable
+  const CHATBOT_URL = process.env.REACT_APP_CHATBOT_URL || "http://localhost:5001";
+
   const defaultParams = {
-    model_name: "llama-3.3-70b-versatile",      // use one of the allowed models
-    model_provider: "Groq",       // or "Groq" if preferred
+    model_name: "gpt-4o-mini",
+    model_provider: "OpenAI",
     system_prompt: "You are a helpful assistant answering queries about Bhagavad Gita.",
-    allow_search: true
+    allow_search: false
   };
 
   const sendMessage = async () => {
     if (!inputText.trim()) return;
 
-    // Append user message to conversation
     const newMessages = [...messages, { sender: 'user', text: inputText }];
     setMessages(newMessages);
     setInputText('');
     setLoading(true);
 
     try {
-      // Prepare the request body; here we send all messages as a list of strings
       const requestBody = {
         ...defaultParams,
         messages: newMessages.map(m => m.text)
       };
 
-      const response = await axios.post("http://localhost:5001/chat", requestBody);
+      const response = await axios.post(`${CHATBOT_URL}/chat`, requestBody);
       const botResponse = response.data.response || "Sorry, I did not understand that.";
-
       setMessages([...newMessages, { sender: 'bot', text: botResponse }]);
     } catch (error) {
-      console.error('Error sending message:', error.response ? error.response.data : error.message);
+      console.error('Error sending message:', error.response || error);
       setMessages([...newMessages, { sender: 'bot', text: "Error: Unable to get response." }]);
     }
     setLoading(false);
