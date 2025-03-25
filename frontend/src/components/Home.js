@@ -17,17 +17,23 @@ const Home = ({ user }) => {
     description: '',
   });
 
-  useEffect(() => {
-    const fetchHomeContent = async () => {
-      try {
-        const { data } = await axios.get('/api/content');
-        if (data && data.home) {
-          setHomeContent(data.home);
-        }
-      } catch (error) {
-        console.error('Error fetching home content:', error.message);
+  // Make API_URL configurable if needed:
+  const API_URL = process.env.REACT_APP_API_URL || "";
+
+  // Define fetchHomeContent outside useEffect
+  const fetchHomeContent = async () => {
+    try {
+      const { data } = await axios.get(`${API_URL}/api/content`);
+      if (data && data.home) {
+        setHomeContent(data.home);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching home content:', error.message);
+    }
+  };
+
+  // Fetch content when the component mounts
+  useEffect(() => {
     fetchHomeContent();
   }, []);
 
@@ -65,6 +71,11 @@ const Home = ({ user }) => {
       </div>
 
       {user && <p>Welcome back, {user.name}!</p>}
+
+      {/* Refresh Button */}
+      <button onClick={fetchHomeContent} className="btn refresh-btn">
+        Refresh Home Content
+      </button>
 
       {/* Teachings Section */}
       <div className="teachings-section">
