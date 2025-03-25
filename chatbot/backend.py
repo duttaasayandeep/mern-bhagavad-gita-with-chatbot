@@ -10,6 +10,18 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+app = FastAPI(title="Bhagavad Gita Chatbot")
+
+# Allow all origins (or specify your frontend's domain)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can replace "*" with a list of allowed origins if needed.
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Load Bhagavad Gita CSV dataset (ensure the CSV file is in the same directory)
 gita_df = pd.read_csv("Bhagavad_Gita.csv")
 
