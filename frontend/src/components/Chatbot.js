@@ -15,7 +15,7 @@ const Chatbot = () => {
     model_name: "llama-3.3-70b-versatile",      // use one of the allowed models
     model_provider: "Groq",       // or "Groq" if preferred
     system_prompt: "You are a helpful assistant answering queries about Bhagavad Gita.",
-    allow_search: false
+    allow_search: true
   };
 
   const sendMessage = async () => {
