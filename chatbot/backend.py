@@ -4,6 +4,7 @@ import re
 import pandas as pd
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import List, Optional
 from dotenv import load_dotenv
@@ -11,7 +12,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Load Bhagavad Gita CSV dataset
+# Load Bhagavad Gita CSV dataset (ensure the CSV file is in the same directory)
 gita_df = pd.read_csv("Bhagavad_Gita.csv")
 
 def fetch_word_meaning(query: str) -> Optional[str]:
@@ -45,22 +46,27 @@ ALLOWED_MODEL_NAMES = [
 
 app = FastAPI(title="Bhagavad Gita Chatbot")
 
-# Standard CORSMiddleware
+# Standard CORSMiddleware (should normally add CORS headers)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Alternatively, specify your frontend URL(s)
+    allow_origins=["*"],  # Or specify allowed origins, e.g., ["https://your-frontend-domain.vercel.app"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Additional middleware to ensure CORS header is always present
+# Custom middleware to catch exceptions and ensure CORS header is always set
 @app.middleware("http")
-async def add_cors_header(request: Request, call_next):
-    response = await call_next(request)
-    # If the header is not present, add it
-    if "access-control-allow-origin" not in response.headers:
-        response.headers["access-control-allow-origin"] = "*"
+async def add_cors_and_handle_exceptions(request: Request, call_next):
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        # Log the exception details for debugging (optional)
+        import traceback
+        traceback.print_exc()
+        response = JSONResponse(content={"detail": str(exc)}, status_code=500)
+    # Ensure CORS header is present
+    response.headers["access-control-allow-origin"] = "*"
     return response
 
 @app.post("/chat")
