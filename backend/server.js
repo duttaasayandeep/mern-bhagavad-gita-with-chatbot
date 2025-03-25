@@ -8,6 +8,8 @@ const contentRoutes = require('./routes/contentRoutes');
 const User = require('./models/User');
 const Content = require('./models/Content');
 dotenv.config();
+const cors = require('cors');
+
 
 // Connect to MongoDB
 connectDB();
