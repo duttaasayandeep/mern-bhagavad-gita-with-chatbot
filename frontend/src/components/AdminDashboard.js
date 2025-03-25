@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Add this constant to use the public API URL from environment variables
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 const AdminDashboard = () => {
   const [homeContent, setHomeContent] = useState({ youtubeUrl: '', description: '' });
   const [videos, setVideos] = useState([]);
@@ -14,7 +17,7 @@ const AdminDashboard = () => {
 
   const fetchContent = async () => {
     try {
-      const { data } = await axios.get('/api/content');
+      const { data } = await axios.get(`${API_URL}/api/content`);
       if (data) {
         setHomeContent(data.home || {});
         setVideos((data.benefits && data.benefits.videos) || []);
@@ -27,7 +30,7 @@ const AdminDashboard = () => {
   const updateHome = async () => {
     try {
       const { data } = await axios.put(
-        '/api/admin/content/home',
+        `${API_URL}/api/admin/content/home`,
         homeContent,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -51,7 +54,7 @@ const AdminDashboard = () => {
         solutionDescription: newVideo.solutionDescription
       };
       const { data } = await axios.post(
-        '/api/admin/content/benefits/video',
+        `${API_URL}/api/admin/content/benefits/video`,
         videoData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -71,7 +74,7 @@ const AdminDashboard = () => {
         solutionDescription: updatedVideo.solutionDescription
       };
       const { data } = await axios.put(
-        `/api/admin/content/benefits/video/${videoId}`,
+        `${API_URL}/api/admin/content/benefits/video/${videoId}`,
         videoData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -85,7 +88,7 @@ const AdminDashboard = () => {
   const deleteVideo = async (videoId) => {
     try {
       await axios.delete(
-        `/api/admin/content/benefits/video/${videoId}`,
+        `${API_URL}/api/admin/content/benefits/video/${videoId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setVideos(videos.filter(video => video._id !== videoId));
