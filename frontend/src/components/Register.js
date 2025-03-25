@@ -17,15 +17,19 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('/api/auth/register', formData);
-      navigate('/login');
-    } catch (error) {
-      console.error('Registration error:', error.response.data.message);
-    }
-  };
+  // frontend/src/components/Register.js
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.post(`${API_URL}/api/auth/register`, formData);
+    navigate('/login');
+  } catch (error) {
+    console.error('Registration error:', error.response ? error.response.data : error);
+    alert(error.response?.data?.message || "Registration failed");
+  }
+};
+
 
   return (
     <div className="register-page">
