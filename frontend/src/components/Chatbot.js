@@ -13,12 +13,12 @@ const Chatbot = () => {
   // Set the chatbot API URL using an environment variable
   const CHATBOT_URL = process.env.REACT_APP_CHATBOT_URL || "http://localhost:5001";
 
-  const defaultParams = {
-    model_name: "llama-3.3-70b-versatile",
-    model_provider: "Groq",
-    system_prompt: "You are a helpful assistant answering queries about Bhagavad Gita.",
-    allow_search: false
-  };
+ const defaultParams = {
+  model_name: "llama-3.3-70b-versatile",  // Use a valid Groq model
+  model_provider: "Groq",                  // Set provider to Groq
+  system_prompt: "You are a helpful assistant answering queries about Bhagavad Gita.",
+  allow_search: true
+};
 
   const sendMessage = async () => {
     if (!inputText.trim()) return;
